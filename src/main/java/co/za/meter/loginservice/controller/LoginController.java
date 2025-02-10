@@ -21,7 +21,10 @@ public class LoginController {
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        String message = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
-        return new LoginResponse(message);
+        String token = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+        if(token == null) {
+            return new LoginResponse("Login unsuccessful", null);
+        }
+        return new LoginResponse("Login successful", token);
     }
 }

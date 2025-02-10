@@ -1,11 +1,12 @@
 spring.application.name=login-service
+logging.level.org.springframework.security=DEBUG
 
 ---
 
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/postgres
-    username: santoshpulichinthala
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
   jpa:
