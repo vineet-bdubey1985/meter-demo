@@ -34,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/login", "/api/users/add").permitAll() // Allow public access to these endpoints
+                        .requestMatchers("/api/auth/login", "/api/auth/refresh-token", "/api/users/add").permitAll() // Allow public access to these endpoints
                         .anyRequest().authenticated() // All other requests need authentication
                 )
                 .httpBasic(Customizer.withDefaults())
