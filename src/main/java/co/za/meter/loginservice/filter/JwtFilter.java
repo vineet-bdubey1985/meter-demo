@@ -2,6 +2,7 @@ package co.za.meter.loginservice.filter;
 
 import co.za.meter.loginservice.service.UserDetailsServiceImpl;
 import co.za.meter.loginservice.util.JwtUtil;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            username = jwtUtil.extractUserName(token);
+            try {
+                if (!token.isBlank()) {
+                    username = jwtUtil.extractUserName(token);
+                }
+            } catch (MalformedJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid JWT token.");
+                return;
+            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
